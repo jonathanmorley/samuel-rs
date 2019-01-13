@@ -1,5 +1,5 @@
 [package]
-name = "samuel-rs"
+name = "samuel"
 version = "0.1.0"
 authors = ["Morley, Jonathan <morley.jonathan@gmail.com>"]
 edition = "2018"
