@@ -1,0 +1,10 @@
+[package]
+name = "samuel-rs"
+version = "0.1.0"
+authors = ["Morley, Jonathan <morley.jonathan@gmail.com>"]
+edition = "2018"
+
+[dependencies]
+failure = "0.1"
+try_from = "0.3"
+roxmltree = "0.4"
