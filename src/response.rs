@@ -2,7 +2,7 @@ use crate::assertion::Assertions;
 use crate::signature::Signature;
 use crate::{maybe_child, try_attribute, try_child};
 use failure::{bail, Error};
-use roxmltree::Node;
+use roxmltree::{Document, Node};
 use std::str::FromStr;
 use try_from::{TryFrom, TryInto};
 
@@ -45,6 +45,14 @@ impl<'a, 'd: 'a> TryFrom<Node<'a, 'd>> for Response {
                 })
                 .try_into()?,
         })
+    }
+}
+
+impl FromStr for Response {
+    type Err = Error;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        Document::parse(s)?.root_element().try_into()
     }
 }
 
@@ -212,10 +220,8 @@ impl FromStr for SecondaryStatusCode {
 mod tests {
     use super::*;
     use failure::Error;
-    use roxmltree::Document;
     use std::fs::read;
     use std::string::String;
-    use try_from::TryInto;
 
     #[test]
     fn parse_response_encrypted_assertion() -> Result<(), Error> {
@@ -291,9 +297,6 @@ mod tests {
     }
 
     fn parse_response_file(path: &str) -> Result<Response, Error> {
-        let bytes = read(path)?;
-        let text = String::from_utf8_lossy(&bytes);
-        let res: Response = Document::parse(&text)?.root_element().try_into()?;
-        Ok(res)
+        String::from_utf8(read(path)?)?.parse()
     }
 }
