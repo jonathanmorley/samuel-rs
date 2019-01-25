@@ -6,12 +6,12 @@ use try_from::{TryFrom, TryInto};
 #[derive(Debug, PartialEq)]
 // http://www.w3.org/2000/09/xmldsig#
 // https://www.w3.org/TR/xmldsig-core/#sec-Signature
-pub(crate) struct Signature {
-    signed_info: SignedInfo,
-    signature_value: String,
-    key_info: Option<KeyInfo>,
-    objects: Vec<Object>,
-    id: Option<String>,
+pub struct Signature {
+    pub signed_info: SignedInfo,
+    pub signature_value: String,
+    pub key_info: Option<KeyInfo>,
+    pub objects: Vec<Object>,
+    pub id: Option<String>,
 }
 
 impl<'a, 'd: 'a> TryFrom<Node<'a, 'd>> for Signature {
@@ -37,9 +37,9 @@ impl<'a, 'd: 'a> TryFrom<Node<'a, 'd>> for Signature {
 }
 
 #[derive(Debug, PartialEq)]
-struct SignatureValue {
-    id: Option<String>,
-    value: String,
+pub struct SignatureValue {
+    pub id: Option<String>,
+    pub value: String,
 }
 
 impl<'a, 'd: 'a> TryFrom<Node<'a, 'd>> for SignatureValue {
@@ -54,10 +54,10 @@ impl<'a, 'd: 'a> TryFrom<Node<'a, 'd>> for SignatureValue {
 }
 
 #[derive(Debug, PartialEq)]
-struct SignedInfo {
-    canonicalization_method: CanonicalizationMethod,
-    signature_method: SignatureMethod,
-    reference: Reference,
+pub struct SignedInfo {
+    pub canonicalization_method: CanonicalizationMethod,
+    pub signature_method: SignatureMethod,
+    pub reference: Reference,
 }
 
 impl<'a, 'd: 'a> TryFrom<Node<'a, 'd>> for SignedInfo {
@@ -73,8 +73,8 @@ impl<'a, 'd: 'a> TryFrom<Node<'a, 'd>> for SignedInfo {
 }
 
 #[derive(Debug, PartialEq)]
-struct CanonicalizationMethod {
-    algorithm: String,
+pub struct CanonicalizationMethod {
+    pub algorithm: String,
     // extension: T,
 }
 
@@ -89,9 +89,9 @@ impl<'a, 'd: 'a> TryFrom<Node<'a, 'd>> for CanonicalizationMethod {
 }
 
 #[derive(Debug, PartialEq)]
-struct SignatureMethod {
-    algorithm: String,
-    hmac_output_length: Option<u64>,
+pub struct SignatureMethod {
+    pub algorithm: String,
+    pub hmac_output_length: Option<u64>,
     // extension: T,
 }
 
@@ -111,13 +111,13 @@ impl<'a, 'd: 'a> TryFrom<Node<'a, 'd>> for SignatureMethod {
 }
 
 #[derive(Debug, PartialEq)]
-struct Reference {
-    id: Option<String>,
-    uri: Option<String>,
-    _type: Option<String>,
-    transforms: Vec<Transform>,
-    digest_method: DigestMethod,
-    digest_value: String,
+pub struct Reference {
+    pub id: Option<String>,
+    pub uri: Option<String>,
+    pub _type: Option<String>,
+    pub transforms: Vec<Transform>,
+    pub digest_method: DigestMethod,
+    pub digest_value: String,
 }
 
 impl<'a, 'd: 'a> TryFrom<Node<'a, 'd>> for Reference {
@@ -143,9 +143,9 @@ impl<'a, 'd: 'a> TryFrom<Node<'a, 'd>> for Reference {
 }
 
 #[derive(Debug, PartialEq)]
-struct Transform {
-    algorithm: String,
-    xpath: Option<String>,
+pub struct Transform {
+    pub algorithm: String,
+    pub xpath: Option<String>,
     // extension: T,
 }
 
@@ -164,8 +164,8 @@ impl<'a, 'd: 'a> TryFrom<Node<'a, 'd>> for Transform {
 }
 
 #[derive(Debug, PartialEq)]
-struct DigestMethod {
-    algorithm: String,
+pub struct DigestMethod {
+    pub algorithm: String,
     // extension: T,
 }
 
@@ -180,9 +180,9 @@ impl<'a, 'd: 'a> TryFrom<Node<'a, 'd>> for DigestMethod {
 }
 
 #[derive(Debug, PartialEq)]
-struct KeyInfo {
-    id: Option<String>,
-    value: KeyInfos,
+pub struct KeyInfo {
+    pub id: Option<String>,
+    pub value: KeyInfos,
 }
 
 impl<'a, 'd: 'a> TryFrom<Node<'a, 'd>> for KeyInfo {
@@ -197,7 +197,7 @@ impl<'a, 'd: 'a> TryFrom<Node<'a, 'd>> for KeyInfo {
 }
 
 #[derive(Debug, PartialEq)]
-enum KeyInfos {
+pub enum KeyInfos {
     KeyNames(Vec<String>),
     KeyValues(Vec<KeyValue>),
     RetrievalMethods(Vec<RetrievalMethod>),
@@ -256,7 +256,7 @@ where
 }
 
 #[derive(Debug, PartialEq)]
-enum KeyValue {
+pub enum KeyValue {
     Dsa {
         p: Option<String>,
         q: Option<String>,
@@ -311,10 +311,10 @@ impl<'a, 'd: 'a> TryFrom<Node<'a, 'd>> for KeyValue {
 }
 
 #[derive(Debug, PartialEq)]
-struct RetrievalMethod {
-    transforms: Vec<Transform>,
-    uri: String,
-    _type: Option<String>,
+pub struct RetrievalMethod {
+    pub transforms: Vec<Transform>,
+    pub uri: String,
+    pub _type: Option<String>,
 }
 
 impl<'a, 'd: 'a> TryFrom<Node<'a, 'd>> for RetrievalMethod {
@@ -337,7 +337,7 @@ impl<'a, 'd: 'a> TryFrom<Node<'a, 'd>> for RetrievalMethod {
 }
 
 #[derive(Debug, PartialEq)]
-enum X509Datas {
+pub enum X509Datas {
     IssuerSerials(Vec<X509IssuerSerial>),
     Skis(Vec<String>),
     SubjectNames(Vec<String>),
@@ -381,9 +381,9 @@ where
 }
 
 #[derive(Debug, PartialEq)]
-struct X509IssuerSerial {
-    issuer_name: String,
-    serial_number: u64,
+pub struct X509IssuerSerial {
+    pub issuer_name: String,
+    pub serial_number: u64,
 }
 
 impl<'a, 'd: 'a> TryFrom<Node<'a, 'd>> for X509IssuerSerial {
@@ -398,9 +398,9 @@ impl<'a, 'd: 'a> TryFrom<Node<'a, 'd>> for X509IssuerSerial {
 }
 
 #[derive(Debug, PartialEq)]
-struct PgpData {
-    key_id: Option<String>,
-    key_packet: Option<String>,
+pub struct PgpData {
+    pub key_id: Option<String>,
+    pub key_packet: Option<String>,
 }
 
 impl<'a, 'd: 'a> TryFrom<Node<'a, 'd>> for PgpData {
@@ -421,8 +421,8 @@ impl<'a, 'd: 'a> TryFrom<Node<'a, 'd>> for PgpData {
 }
 
 #[derive(Debug, PartialEq)]
-struct SpkiData {
-    sexps: Vec<String>,
+pub struct SpkiData {
+    pub sexps: Vec<String>,
 }
 
 impl<'a, 'd: 'a> TryFrom<Node<'a, 'd>> for SpkiData {
@@ -440,10 +440,10 @@ impl<'a, 'd: 'a> TryFrom<Node<'a, 'd>> for SpkiData {
 }
 
 #[derive(Debug, PartialEq)]
-struct Object {
-    id: Option<String>,
-    mime_type: Option<String>,
-    encoding: Option<String>,
+pub struct Object {
+    pub id: Option<String>,
+    pub mime_type: Option<String>,
+    pub encoding: Option<String>,
 }
 
 impl<'a, 'd: 'a> TryFrom<Node<'a, 'd>> for Object {
@@ -455,5 +455,30 @@ impl<'a, 'd: 'a> TryFrom<Node<'a, 'd>> for Object {
             mime_type: n.attribute("MimeType").map(|a| a.into()),
             encoding: n.attribute("Encoding").map(|a| a.into()),
         })
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use failure::Error;
+    use roxmltree::Document;
+    use std::fs::read;
+    use std::string::String;
+    use try_from::TryInto;
+
+    #[test]
+    fn parse_response() -> Result<(), Error> {
+        let path = "tests/fixtures/signature/example-2.xml";
+        parse_signature_file(path)?;
+
+        Ok(())
+    }
+
+    fn parse_signature_file(path: &str) -> Result<Signature, Error> {
+        let bytes = read(path)?;
+        let text = String::from_utf8_lossy(&bytes);
+        let res: Signature = Document::parse(&text)?.root_element().try_into()?;
+        Ok(res)
     }
 }

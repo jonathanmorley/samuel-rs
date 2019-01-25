@@ -1,8 +1,9 @@
-#![feature(transpose_result)]
-
 use failure::{format_err, Error};
 use roxmltree::Node;
+use try_from::{TryFrom, TryInto};
 
+pub mod assertion;
+pub mod encryption;
 pub mod response;
 pub mod signature;
 
@@ -20,6 +21,19 @@ pub(crate) fn try_child<'a, 'd: 'a>(
                 node.node_pos()
             )
         })
+}
+
+pub(crate) fn maybe_child<'a, 'd: 'a, T>(
+    node: Node<'a, 'd>,
+    element_name: &str,
+) -> Result<Option<T>, Error>
+where
+    T: TryFrom<Node<'a, 'd>, Err = Error>,
+{
+    node.children()
+        .find(|c| c.tag_name().name() == element_name)
+        .map(|c| c.try_into())
+        .transpose()
 }
 
 pub(crate) fn try_attribute<'a, 'd: 'a>(

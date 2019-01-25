@@ -1,0 +1,29 @@
+<!-- From https://en.wikipedia.org/wiki/SAML_2.0#SP_Redirect_Request;_IdP_POST_Response -->
+<samlp:ArtifactResponse
+    xmlns:samlp="urn:oasis:names:tc:SAML:2.0:protocol"
+    ID="identifier_2"
+    InResponseTo="identifier_1"
+    Version="2.0"
+    IssueInstant="2004-12-05T09:21:59Z">
+    <!-- an ArtifactResponse message SHOULD be signed -->
+    <ds:Signature
+      xmlns:ds="http://www.w3.org/2000/09/xmldsig#">...</ds:Signature>
+    <samlp:Status>
+      <samlp:StatusCode
+        Value="urn:oasis:names:tc:SAML:2.0:status:Success"/>
+    </samlp:Status>
+    <samlp:AuthnRequest
+      xmlns:samlp="urn:oasis:names:tc:SAML:2.0:protocol"
+      xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion"
+      ID="identifier_3"
+      Version="2.0"
+      IssueInstant="2004-12-05T09:21:59Z"
+      Destination="https://idp.example.org/SAML2/SSO/Artifact"
+      ProtocolBinding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Artifact"
+      AssertionConsumerServiceURL="https://sp.example.com/SAML2/SSO/Artifact">
+      <saml:Issuer>https://sp.example.com/SAML2</saml:Issuer>
+      <samlp:NameIDPolicy
+        AllowCreate="false"
+        Format="urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress"/>
+    </samlp:AuthnRequest>
+  </samlp:ArtifactResponse>

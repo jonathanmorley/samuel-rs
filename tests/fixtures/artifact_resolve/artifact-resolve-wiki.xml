@@ -1,0 +1,14 @@
+<!-- From https://en.wikipedia.org/wiki/SAML_2.0#SP_Redirect_Request;_IdP_POST_Response -->
+<samlp:ArtifactResolve
+    xmlns:samlp="urn:oasis:names:tc:SAML:2.0:protocol"
+    xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion"
+    ID="identifier_1"
+    Version="2.0"
+    IssueInstant="2004-12-05T09:21:58Z"
+    Destination="https://sp.example.com/SAML2/ArtifactResolution">
+    <saml:Issuer>https://idp.example.org/SAML2</saml:Issuer>
+    <!-- an ArtifactResolve message SHOULD be signed -->
+    <ds:Signature
+      xmlns:ds="http://www.w3.org/2000/09/xmldsig#">...</ds:Signature>
+    <samlp:Artifact>''artifact_1''</samlp:Artifact>
+  </samlp:ArtifactResolve>
