@@ -9,4 +9,4 @@ license = "Apache-2.0"
 [dependencies]
 failure = "0.1"
 try_from = "0.3"
-roxmltree = "0.4"
+roxmltree = "0.21"
